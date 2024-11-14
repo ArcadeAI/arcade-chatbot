@@ -10,6 +10,10 @@
 </p>
 
 <p align="center">
+<img src="public/images/landing-page.png" alt="Landing Page" style="max-height: 400px;" />
+</p>
+
+<p align="center">
   <a href="#features">Features</a> •
   <a href="#prerequisites">Prerequisites</a> •
   <a href="#installation">Installation</a> •
