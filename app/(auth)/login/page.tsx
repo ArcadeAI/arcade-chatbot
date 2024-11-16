@@ -1,4 +1,3 @@
-import '@/app/globals.css';
 import SignIn from '@/components/custom/github-sign-in';
 
 export default async function Page() {
