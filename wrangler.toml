@@ -1,7 +1,7 @@
 name = "arcade-chatbot"
 main = ".worker-next/index.mjs"
 compatibility_date = "2024-09-23"
-compatibility_flags = ["nodejs_compat"]
+compatibility_flags = ["nodejs_compat_v2"]
 assets = { directory = ".worker-next/assets", binding = "ASSETS" }
 
 
