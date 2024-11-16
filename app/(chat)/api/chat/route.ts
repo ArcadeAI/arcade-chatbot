@@ -9,8 +9,9 @@ import { ChatRequestBody, ToolAuthorization } from './types';
 
 export const maxDuration = 60;
 
-export const POST = auth(async function POST(request) {
-  const userEmail = request?.auth?.user?.email;
+export async function POST(request: Request) {
+  const session = await auth();
+  const userEmail = session?.user?.email;
   if (!userEmail) {
     return NextResponse.json({ message: 'Not authenticated' }, { status: 401 });
   }
@@ -79,4 +80,4 @@ export const POST = auth(async function POST(request) {
     console.error('Request processing error:', error);
     return new Response('Internal Server Error', { status: 500 });
   }
-});
+}
