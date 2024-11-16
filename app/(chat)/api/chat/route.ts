@@ -27,7 +27,7 @@ export async function POST(request: Request) {
           let toolAuthorizations: Array<ToolAuthorization> = [];
           for await (const chunk of response) {
             // Check for tool authorizations
-            const authorizations = chunk?.choices?.[0]?.tool_authorizations;
+            const authorizations = (chunk?.choices?.[0] as any)?.tool_authorizations;
             if (authorizations) {
               toolAuthorizations = authorizations;
             }

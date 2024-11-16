@@ -1,5 +1,6 @@
 import { OpenAI } from 'openai';
 
+import { systemPrompt } from '@/ai/prompts';
 import { StreamContext } from '@/app/(chat)/api/chat/types';
 
 const BASE_URL =
@@ -17,6 +18,10 @@ export const createCompletion = (
   props: Pick<StreamContext, 'model' | 'messages'>
 ) => {
   const { model, messages } = props;
+  messages.unshift({
+    role: 'system',
+    content: systemPrompt,
+  });
   return client.chat.completions.create({
     model: model.apiIdentifier,
     user: USER_ID,
