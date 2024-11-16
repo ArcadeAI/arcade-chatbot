@@ -46,7 +46,10 @@ export const checkToolAuthorization = async (
  * @param streamContext
  * @returns
  */
-export async function handleToolAuthorizations(userId: string, streamContext: StreamContext) {
+export async function handleToolAuthorizations(
+  userId: string,
+  streamContext: StreamContext
+) {
   const { model, messages, encoder, controller, toolAuthorizations } =
     streamContext;
 
