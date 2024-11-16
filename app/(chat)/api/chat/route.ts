@@ -5,10 +5,17 @@ import { models } from '@/ai/models';
 
 import { handleToolAuthorizations } from './tool-authorization';
 import { ChatRequestBody, ToolAuthorization } from './types';
+import { auth } from '@/auth';
 
 export const maxDuration = 60;
 
-export async function POST(request: Request) {
+export const POST = auth(async function POST(request) {
+  const userEmail = request?.auth?.user?.email;
+  if (!userEmail)
+  {
+    return NextResponse.json({ message: "Not authenticated" }, { status: 401 })
+  }
+
   try {
     const { messages, modelId }: ChatRequestBody = await request.json();
 
@@ -22,7 +29,7 @@ export async function POST(request: Request) {
       async start(controller) {
         try {
           const encoder = new TextEncoder();
-          const response = await createCompletion({ model, messages });
+          const response = await createCompletion(userEmail, { model, messages });
 
           let toolAuthorizations: Array<ToolAuthorization> = [];
           for await (const chunk of response) {
@@ -39,7 +46,7 @@ export async function POST(request: Request) {
 
           // If there are tool authorizations, handle them
           if (toolAuthorizations.length > 0) {
-            await handleToolAuthorizations({
+            await handleToolAuthorizations(userEmail, {
               model,
               messages,
               encoder,
@@ -70,4 +77,4 @@ export async function POST(request: Request) {
     console.error('Request processing error:', error);
     return new Response('Internal Server Error', { status: 500 });
   }
-}
+});
