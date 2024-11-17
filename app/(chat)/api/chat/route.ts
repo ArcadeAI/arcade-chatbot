@@ -11,6 +11,7 @@ export const maxDuration = 60;
 
 export const POST = auth(async function POST(request: any) {
   const userEmail = request?.auth?.user?.email;
+  console.log('userEmail', userEmail);
   if (!userEmail)
   {
     return NextResponse.json({ message: "Not authenticated" }, { status: 401 })

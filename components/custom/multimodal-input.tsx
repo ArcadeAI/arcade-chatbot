@@ -4,26 +4,26 @@ import { ChatRequestOptions, CreateMessage, Message } from 'ai';
 import cx from 'classnames';
 import { motion } from 'framer-motion';
 import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
+    Dispatch,
+    SetStateAction,
+    useCallback,
+    useEffect,
+    useRef,
 } from 'react';
 import { toast } from 'sonner';
 import { useLocalStorage, useWindowSize } from 'usehooks-ts';
 
 import { sanitizeUIMessages } from '@/lib/utils';
 
-import { ArrowUpIcon, StopIcon } from './icons';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
+import { ArrowUpIcon, StopIcon } from './icons';
 
 const suggestedActions = [
   {
-    title: 'Start the',
-    label: 'ArcadeAI/arcade-ai repo',
-    action: 'Start the ArcadeAI/arcade-ai repo',
+    title: 'Star the ArcadeAI/arcade-ai repo',
+    label: 'on Github',
+    action: 'Star the ArcadeAI/arcade-ai repo',
   },
   {
     title: 'Look through my last 10 emails',
