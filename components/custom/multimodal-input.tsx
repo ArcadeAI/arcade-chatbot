@@ -4,20 +4,20 @@ import { ChatRequestOptions, CreateMessage, Message } from 'ai';
 import cx from 'classnames';
 import { motion } from 'framer-motion';
 import React, {
-    Dispatch,
-    SetStateAction,
-    useCallback,
-    useEffect,
-    useRef,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
 } from 'react';
 import { toast } from 'sonner';
 import { useLocalStorage, useWindowSize } from 'usehooks-ts';
 
 import { sanitizeUIMessages } from '@/lib/utils';
 
+import { ArrowUpIcon, StopIcon } from './icons';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
-import { ArrowUpIcon, StopIcon } from './icons';
 
 const suggestedActions = [
   {
