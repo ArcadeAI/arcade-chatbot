@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { Toaster } from 'sonner';
 
 import { ThemeProvider } from '@/components/custom/theme-provider';
@@ -8,8 +8,8 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://arcade-ai.com'),
   title: 'Arcade AI Chat',
-  description: 'Chat with Archer, an AI assistant built by Arcade AI with access to \
-  service like Google, Spotify, and more.',
+  description:
+    'Chat with Archer, an AI assistant built by Arcade AI with access to service like Google, Spotify, and more.',
 };
 
 export const viewport = {

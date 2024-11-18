@@ -1,11 +1,11 @@
-import { signIn } from "@/auth"
+import { signIn } from '@/app/(auth)/auth';
 
 export default function SignIn() {
   return (
     <form
       action={async () => {
-        "use server"
-        await signIn("github")
+        'use server';
+        await signIn('github');
       }}
     >
       <button
@@ -14,7 +14,7 @@ export default function SignIn() {
       >
         {/* GitHub Icon */}
         <svg
-          className="w-5 h-5 mr-2"
+          className="size-5 mr-2"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
@@ -28,5 +28,5 @@ export default function SignIn() {
         Sign in with GitHub
       </button>
     </form>
-  )
+  );
 }

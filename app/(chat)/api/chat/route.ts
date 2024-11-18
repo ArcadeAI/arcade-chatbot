@@ -2,19 +2,18 @@ import { NextResponse } from 'next/server';
 
 import { createCompletion } from '@/ai/client';
 import { models } from '@/ai/models';
-import { auth } from '@/auth';
+import { auth } from '@/app/(auth)/auth';
 
 import { handleToolAuthorizations } from './tool-authorization';
-import { ChatRequestBody, ToolAuthorization } from './types';
+import type { ChatRequestBody, ToolAuthorization } from './types';
 
 export const maxDuration = 60;
 
-export const POST = auth(async function POST(request: any) {
-  const userEmail = request?.auth?.user?.email;
-  console.log('userEmail', userEmail);
-  if (!userEmail)
-  {
-    return NextResponse.json({ message: "Not authenticated" }, { status: 401 })
+export async function POST(request: Request) {
+  const session = await auth();
+  const userEmail = session?.user?.email;
+  if (!userEmail) {
+    return NextResponse.json({ message: 'Not authenticated' }, { status: 401 });
   }
 
   try {
@@ -30,12 +29,17 @@ export const POST = auth(async function POST(request: any) {
       async start(controller) {
         try {
           const encoder = new TextEncoder();
-          const response = await createCompletion(userEmail, { model, messages });
+          const response = await createCompletion({
+            userId: userEmail,
+            model,
+            messages,
+          });
 
           let toolAuthorizations: Array<ToolAuthorization> = [];
           for await (const chunk of response) {
             // Check for tool authorizations
-            const authorizations = (chunk?.choices?.[0] as any)?.tool_authorizations;
+            // @ts-ignore - Arcade AI injects this property into the response
+            const authorizations = chunk?.choices?.[0]?.tool_authorizations;
             if (authorizations) {
               toolAuthorizations = authorizations;
             }
@@ -59,8 +63,8 @@ export const POST = auth(async function POST(request: any) {
           console.error('Stream processing error:', error);
           controller.enqueue(
             new TextEncoder().encode(
-              '\n\n❌ An error occurred while processing your request.\n'
-            )
+              '\n\n❌ An error occurred while processing your request.\n',
+            ),
           );
         } finally {
           controller.close();
@@ -78,4 +82,4 @@ export const POST = auth(async function POST(request: any) {
     console.error('Request processing error:', error);
     return new Response('Internal Server Error', { status: 500 });
   }
-});
+}

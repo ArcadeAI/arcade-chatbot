@@ -1,6 +1,6 @@
 import { createCompletion } from '@/ai/client';
 
-import { StreamContext, ToolAuthorization } from './types';
+import type { StreamContext, ToolAuthorization } from './types';
 
 const CHECK_AUTHORIZATION_PATH = '/auth/status';
 const CHECK_AUTHORIZATION_WAIT_TIME = 20;
@@ -12,7 +12,7 @@ const CHECK_AUTHORIZATION_WAIT_TIME = 20;
  * @returns The status of the tool authorization
  */
 export const checkToolAuthorization = async (
-  toolAuthorization: ToolAuthorization
+  toolAuthorization: ToolAuthorization,
 ): Promise<ToolAuthorization['status']> => {
   let status: ToolAuthorization['status'] = 'pending';
   while (status === 'pending') {
@@ -46,13 +46,16 @@ export const checkToolAuthorization = async (
  * @param streamContext
  * @returns
  */
-export async function handleToolAuthorizations(userId: string, streamContext: StreamContext) {
+export async function handleToolAuthorizations(
+  userId: string,
+  streamContext: StreamContext,
+) {
   const { model, messages, encoder, controller, toolAuthorizations } =
     streamContext;
 
   // Inform the user that the tool authorizations are being checked
   controller.enqueue(
-    encoder.encode('\n\n⏳ Waiting for tool authorization to complete...\n')
+    encoder.encode('\n\n⏳ Waiting for tool authorization to complete...\n'),
   );
 
   for (const auth of toolAuthorizations) {
@@ -62,11 +65,11 @@ export async function handleToolAuthorizations(userId: string, streamContext: St
       if (status === 'completed') {
         controller.enqueue(
           encoder.encode(
-            '\n\n✅ Authorization completed! Waiting for the response...\n\n\n'
-          )
+            '\n\n✅ Authorization completed! Waiting for the response...\n\n\n',
+          ),
         );
 
-        const response = await createCompletion(userId, { model, messages });
+        const response = await createCompletion({ userId, model, messages });
         for await (const chunk of response) {
           const content = chunk.choices[0]?.delta?.content || '';
           controller.enqueue(encoder.encode(content));
@@ -76,8 +79,8 @@ export async function handleToolAuthorizations(userId: string, streamContext: St
       console.error('Error checking authorization status:', error);
       controller.enqueue(
         encoder.encode(
-          '\n\n❌ Error processing authorization. Please try again.\n'
-        )
+          '\n\n❌ Error processing authorization. Please try again.\n',
+        ),
       );
     }
   }

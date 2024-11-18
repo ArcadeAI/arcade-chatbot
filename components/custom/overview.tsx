@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import Link from 'next/link';
-
 
 export const Overview = () => {
   return (
@@ -20,13 +19,12 @@ export const Overview = () => {
             alt="Arcade Logo"
             width={32}
             height={64}
-            className="w-auto h-16"
+            className="w-auto h-16 invert dark:invert-0"
           />
         </p>
-
         <p>
-          Archer is an AI assistant that can connect to
-          services like Google, Spotify, and more using Arcade AI.
+          Archer is an AI assistant that can connect to services like Google,
+          Spotify, and more using Arcade AI.
         </p>
         <p>
           You can learn more about Arcade by visiting our{' '}

@@ -1,8 +1,18 @@
-/** @type {import('next').NextConfig} */
-module.exports = {
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
+  /* config options here */
+  experimental: {
+    ppr: true,
+  },
   images: {
     remotePatterns: [
-      // Add remote patterns here
+      {
+        hostname: 'avatar.vercel.sh',
+      },
+      {
+        hostname: 'avatars.githubusercontent.com',
+      },
     ],
   },
   env: {
@@ -14,3 +24,4 @@ module.exports = {
   },
 };
 
+export default nextConfig;
